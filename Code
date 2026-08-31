@@ -106,7 +106,7 @@ public class Game {
     while(fighting){
         checkCoinReward();
         System.out.println("\n==========================[Battle Menu]===");
-        System.out.println("[1] Attack\n[2] Check stats");
+        System.out.println("[1] Attack\n[2] Check stats\n[3] Shop\n[4] Exit program");
         System.out.println("==========================================");
         System.out.print(">> Enter your selection: ");
         
@@ -144,7 +144,7 @@ public class Game {
                     
                     int BSenemy = random.nextInt (2) + 1;
                     if (BSenemy == 1){
-                        System.out.println(">> " + enemy.Name + " attacks!");
+                        System.out.println(">> " + enemy.Name + " used [Basic Attack]");
                         System.out.println(">> Dealt " + enemy.basicdmg + " damage!");
                         
                         player.hp -= enemy.basicdmg;
@@ -163,7 +163,7 @@ public class Game {
                         
                     }else if(BSenemy == 2){
                         
-                        System.out.println(">> " + enemy.Name + " attacks!");
+                        System.out.println(">> " + enemy.Name + " used [Skill Attack]");
                         System.out.println(">> Dealt " + enemy.skilldmg + " damage!");
                         
                         player.hp -= enemy.skilldmg;                       
@@ -214,7 +214,7 @@ public class Game {
                     
                     int BSenemy = random.nextInt (2) + 1;
                     if (BSenemy == 1){
-                        System.out.println(">> " + enemy.Name + " attacks!");
+                        System.out.println(">> " + enemy.Name + " used [Basic Attack]");
                         System.out.println(">> Dealt " + enemy.basicdmg + " damage!");
                         
                         player.hp -= enemy.basicdmg;
@@ -232,7 +232,7 @@ public class Game {
                         System.out.println(">> " + player.Name + " HP = " + player.hp);
                         
                     }else if(BSenemy == 2){
-                        System.out.println(">> " + enemy.Name + " attacks!");
+                        System.out.println(">> " + enemy.Name + " used [Skill Attack]");
                         System.out.println(">> Dealt " + enemy.skilldmg + " damage!");
                         
                         player.hp -= enemy.skilldmg; 
@@ -263,20 +263,86 @@ public class Game {
             System.out.println("Basic Damage: " + player.basicdmg);
             System.out.println("Skill Damage: " + player.skilldmg);
 
-            System.out.println("\n>> [OPPONENT]");
+            System.out.println("\n>> [OPPONENT HERO INFO]");
             System.out.println("Name: " + enemy.Name);
             System.out.println("Type: " + enemy.herotype);
             System.out.println("HP: " + enemy.hp);
             System.out.println("Basic Damage: " + enemy.basicdmg);
             System.out.println("Skill Damage: " + enemy.skilldmg);
+        }else if (battlePick == 3){           
+            boolean shopping = true;
+            while(shopping){
+            
+                System.out.println("\n=================================[SHOP]===");
+                System.out.println(">> Your Coins: " + coins);
+                System.out.println("[1] Health Potion - 20 coins\n[2] Damage Boost - 25 coins\n[3] Exit");
+                System.out.println("==========================================");
+                System.out.print(">> Select an item: ");
+                try{
+                    int shopPick = scanner.nextInt();
+                    if (shopPick == 1){
+                        if (coins >= 20){
+                            coins -= 20;
+                            player.hp += 100;
+                            
+                            System.out.println(">> "+player.Name+" bought [Health Potion]");
+                            System.out.println(">> "+player.Name+" recovered 100 HP");
+                            System.out.println(">> Remaining Coins: " + coins);
+                        }else{
+                            System.out.println(">> Not enough coins");
+                        }
+                    }else if(shopPick == 2){
+                        if (coins >= 25){
+                            coins -= 25;
+                            player.basicdmg += 10;
+                            player.skilldmg += 10;
+                            
+                            System.out.println(">> "+player.Name+" bought [Damage Boost]");
+                            System.out.println(">> "+player.Name+"'s [Basic and Skill Damage] increased by 10");
+                            System.out.println(">> Remaining Coins: " + coins);
+                        }else{
+                            System.out.println(">> Not enough coins");
+                        }
+                    }else if(shopPick == 3){
+                        shopping = false;
+                    }else{
+                        System.out.println(">> Invalid input! Not within the menu");
+                    }
+                }catch(InputMismatchException e){
+                    System.out.println("\n>> Invalid input! Please enter a number");
+                    scanner.next();
+                }
+            }
+            enemyShop(enemy);
+        }else if(battlePick == 4){
+            fighting = false;
+            boolean exitLoop = true;
+            while(exitLoop){
+            System.out.println("\n-------------------------|Confirmation|---");
+            System.out.println("[1] Yes\n[2] No");
+            System.out.println("------------------------------------------");
+        try{
+            System.out.print(">> Enter selection: ");
+            int exiting = scanner.nextInt();
+            if(exiting == 1){ 
+                System.out.println(">> Thank you for using out system");
+                exitLoop = false;
+            }else{
+                exitLoop = false;
+                fighting = true;
+            }
+        }catch(InputMismatchException e){
+            System.out.println("\n>> Invalid input! Please enter a number");
+        }
+            }
         }else{
-            System.out.println("\n>> Invalid input! Not within the menu");
+            System.out.println("\n>> Invalid input! Not within the menu");    
         }
         
         }catch(InputMismatchException e){
             System.out.println("\n>> Invalid input! Please enter a number");
             scanner.next();
-        }
+        } 
     }     
   }
 public static void checkCoinReward() {
@@ -301,19 +367,36 @@ public static void checkCoinReward() {
             System.out.println(">> Opponent received " + enemyReward + " coins!");
             System.out.println(">> Enemy Coins: " + enemyCoins);
         }
-
         lastRewardTime += timePassed * (30 * 1000);
     }
-}
+  }
+public static void enemyShop(Hero enemy) {
 
-public static void shop() {
+    int enemyChoice = random.nextInt(2) + 1;
 
-    System.out.println("\n=================================<SHOP>===");
-    System.out.println(">> Your Coins: " + coins);
-    System.out.println("[1] Health Potion - 30 coins");
-    System.out.println("[2] Damage Boost - 50 coins");
-    System.out.println("[3] Exit");
+    if (enemyChoice == 1){
 
-    // shop code goes here
-}
+        if(enemyCoins >= 20){
+            enemyCoins -= 20;
+
+            enemy.hp += 100;
+
+            System.out.println(">> "+enemy.Name+" bought [Health Potion]!");
+            System.out.println(">> "+enemy.Name+" recovered 100 HP");
+            System.out.println(">> Enemy Coins: " + enemyCoins);
+        }
+    }else if(enemyChoice == 2){
+
+        if (enemyCoins >= 25){
+            enemyCoins -= 25;
+
+            enemy.basicdmg += 10;
+            enemy.skilldmg += 10;
+
+            System.out.println(">> "+enemy.Name+" bought [Damage Boost]!");
+            System.out.println(">> "+enemy.Name+" damage increased by 10");
+            System.out.println(">> Enemy Coins: " + enemyCoins);
+        }
+    }
+  }
 }
