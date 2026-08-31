@@ -13,31 +13,31 @@ public class Game {
         
         Hero layla = new Hero();
         layla.Name = "Layla";
-        layla.basicdmg = 20; 
+        layla.basicdmg = 40; 
         layla.skilldmg = 100;
         layla.herotype = "marksman";
-        layla.hp = 1000;
+        layla.hp = 500;
 
         Hero zilong = new Hero();
         zilong.Name = "Zilong";
-        zilong.basicdmg = 20; 
-        zilong.skilldmg = 70;
+        zilong.basicdmg = 60; 
+        zilong.skilldmg = 90;
         zilong.herotype = "fighter";
-        zilong.hp = 2000;
+        zilong.hp = 600;
         
         Hero nana = new Hero();
         nana.Name = "Nana";
-        nana.basicdmg = 20; 
-        nana.skilldmg = 70;
+        nana.basicdmg = 35; 
+        nana.skilldmg = 110;
         nana.herotype = "mage";
-        nana.hp = 2000;
+        nana.hp = 450;
         
         Hero tigreal = new Hero();
         tigreal.Name = "Tigreal";
-        tigreal.basicdmg = 20; 
+        tigreal.basicdmg = 30; 
         tigreal.skilldmg = 70;
         tigreal.herotype = "tank";
-        tigreal.hp = 2000;
+        tigreal.hp = 700;
     
     System.out.println(">>>.WELCOME.TO.[CONSOLE LEGENDS: PEW PEW] <<<");
         
