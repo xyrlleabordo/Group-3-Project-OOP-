@@ -5,9 +5,21 @@ import java.util.Random;
 import java.util.InputMismatchException;
 
 public class Game {
+
     static Scanner scanner = new Scanner (System.in);
     static Random random = new Random();
+
+    static int coins = 0;
+    static long gameStartTime;
+    static long lastRewardTime;
+    
+    static final long REWARD_INTERVAL = 60 * 1000;
+    static final int COIN_REWARD = 10;
+
     public static void main(String[] args) {
+
+        gameStartTime = System.currentTimeMillis();
+        lastRewardTime = gameStartTime;
         Hero player = null;
         Hero enemy = null;
         
@@ -91,6 +103,7 @@ public class Game {
     
     boolean fighting = true;
     while(fighting){
+        checkCoinReward();
         System.out.println("\n============{Battle Menu}==============");
         System.out.println("[1] Attack\n[2] Check stats");
         System.out.println("=======================================");
@@ -251,4 +264,34 @@ public class Game {
         }
     }     
   }
+public static void checkCoinReward() {
+    long currentTime = System.currentTimeMillis();
+
+    if (currentTime - lastRewardTime >= 60 * 1000) {
+
+        long minutesPassed =
+                (currentTime - lastRewardTime) / (60 * 1000);
+
+        int reward = (int) minutesPassed * 10;
+
+        coins += reward;
+
+        lastRewardTime += minutesPassed * (60 * 1000);
+
+        System.out.println("\n>> ★ COIN REWARD! ★");
+        System.out.println(">> You received " + reward + " coins!");
+        System.out.println(">> Total Coins: " + coins);
+    }
+}
+
+public static void shop() {
+
+    System.out.println("\n============{ SHOP }============");
+    System.out.println(">> Your Coins: " + coins);
+    System.out.println("[1] Health Potion - 30 coins");
+    System.out.println("[2] Damage Boost - 50 coins");
+    System.out.println("[3] Exit");
+
+    // shop code goes here
+}
 }
