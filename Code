@@ -180,11 +180,34 @@ public class Game {
                     }
                     subAttack = false;
    
-                }else if (BSplayer == 2 ){
-                    System.out.println("\n>> " + player.Name + " used [Skill]");
-                    System.out.println(">> Dealt "+player.skilldmg+" damage");
-                    
-                    enemy.hp -= player.skilldmg;
+                    } else if (BSplayer == 2) {
+
+                            long currentTime = System.currentTimeMillis();
+
+                            long timePassed =
+                            (currentTime - player.skillLastUsed) / 1000;
+
+                    if (player.skillLastUsed != 0
+                            && timePassed < player.skillCooldown) {
+  
+                            long remainingTime =
+                            player.skillCooldown - timePassed;
+
+                         System.out.println("\n>> Skill is on cooldown!");
+                         System.out.println(">> Please wait "
+                            + remainingTime + " second(s).");
+
+                   continue;
+                   }
+
+                         System.out.println("\n>> " + player.Name + " used [Skill]");
+                         System.out.println(">> Dealt " + player.skilldmg + " damage");
+
+                             enemy.hp -= player.skilldmg;
+
+                            player.skillLastUsed = System.currentTimeMillis();
+     
+                      System.out.println(">> Skill cooldown started: 10 seconds");
                     
                     if(enemy.hp <= 0){
                         enemy.hp = 0;
