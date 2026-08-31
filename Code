@@ -17,7 +17,6 @@ public class Game {
         layla.skilldmg = 100;
         layla.herotype = "marksman";
         layla.hp = 1000;
-        layla.exp = 500;
 
         Hero zilong = new Hero();
         zilong.Name = "Zilong";
@@ -25,7 +24,6 @@ public class Game {
         zilong.skilldmg = 70;
         zilong.herotype = "fighter";
         zilong.hp = 2000;
-        zilong.exp = 500;
         
         Hero nana = new Hero();
         nana.Name = "Nana";
@@ -33,7 +31,6 @@ public class Game {
         nana.skilldmg = 70;
         nana.herotype = "mage";
         nana.hp = 2000;
-        nana.exp = 500;
         
         Hero tigreal = new Hero();
         tigreal.Name = "Tigreal";
@@ -41,7 +38,6 @@ public class Game {
         tigreal.skilldmg = 70;
         tigreal.herotype = "tank";
         tigreal.hp = 2000;
-        tigreal.exp = 500;
     
     System.out.println(">>>.WELCOME.TO.[CONSOLE LEGENDS: PEW PEW] <<<");
         
@@ -108,15 +104,17 @@ public class Game {
             boolean subAttack = true;
             
             while(subAttack){
-                System.out.println("\n-----------{Pick}-----------");
+                System.out.println("\nAttack|----------------------");
                 System.out.println("[1] Basic attack\n[2] Skill attack");  
-                System.out.println("------------------------------");
+                System.out.println("-----------------------------");
                 System.out.print(">> Select your choice of attack: ");
                 int BSplayer = scanner.nextInt();
                 
                 if(BSplayer == 1){
                     System.out.println("\n>> " + player.Name + " used [Basic Attack]");
                     System.out.println(">> Dealt "+player.basicdmg+" damage");
+                    
+                    enemy.hp -= player.basicdmg;
                     
                     if(enemy.hp <= 0){
                         enemy.hp = 0;
@@ -128,12 +126,14 @@ public class Game {
                         subAttack = false;
                         continue;
                     }
-                    System.out.println(">> "+enemy.Name+" HP = "+(enemy.hp-= player.basicdmg)+"\n");
+                    System.out.println(">> " + enemy.Name + " HP = " + enemy.hp + "\n");
                     
                     int BSenemy = random.nextInt (2) + 1;
                     if (BSenemy == 1){
                         System.out.println(">> " + enemy.Name + " attacks!");
                         System.out.println(">> Dealt " + enemy.basicdmg + " damage!");
+                        
+                        player.hp -= enemy.basicdmg;
                         
                         if(player.hp <= 0){
                             player.hp = 0;
@@ -145,11 +145,13 @@ public class Game {
                             subAttack = false;
                             continue;                        
                         }                   
-                        System.out.println(">> " + player.Name + " HP = " +(player.hp -= enemy.basicdmg));
+                        System.out.println(">> " + player.Name + " HP = " + player.hp);
                         
                     }else if(BSenemy == 2){
                         System.out.println(">> " + enemy.Name + " attacks!");
                         System.out.println(">> Dealt " + enemy.skilldmg + " damage!");
+                        
+                        player.hp -= enemy.skilldmg;
                         
                         if(player.hp <= 0){
                             player.hp = 0;
@@ -161,13 +163,15 @@ public class Game {
                             subAttack = false;
                             continue;                        
                         }                        
-                        System.out.println(">> " + player.Name + " HP = " +(player.hp -= enemy.skilldmg));
+                        System.out.println(">> " + player.Name + " HP = " + player.hp);
                     }
                     subAttack = false;
    
                 }else if (BSplayer == 2 ){
                     System.out.println("\n>> " + player.Name + " used [Skill]");
                     System.out.println(">> Dealt "+player.skilldmg+" damage");
+                    
+                    enemy.hp -= player.skilldmg;
                     
                     if(enemy.hp <= 0){
                         enemy.hp = 0;
@@ -179,20 +183,45 @@ public class Game {
                         subAttack = false;
                         continue;
                     }
-                    System.out.println(">> "+enemy.Name+" HP = "+(enemy.hp-=player.skilldmg)+"\n");
+                    System.out.println(">> " + enemy.Name + " HP = " + enemy.hp + "\n");
                     
                     int BSenemy = random.nextInt (2) + 1;
                     if (BSenemy == 1){
                         System.out.println(">> " + enemy.Name + " attacks!");
                         System.out.println(">> Dealt " + enemy.basicdmg + " damage!");
-                        System.out.println(">> " + player.Name + " HP = " +(player.hp -= enemy.basicdmg));
+                        
+                        player.hp -= enemy.basicdmg;
+
+                        if(player.hp <= 0){
+                        player.hp = 0;
+                        System.out.println(">> " + player.Name + " HP = " + player.hp);
+                        System.out.println("\n>> " + player.Name + " has been defeated!");
+                        System.out.println(">> YOU LOSE!");
+
+                        fighting = false;
+                        subAttack = false;
+                        continue;
+                        }                       
+                        System.out.println(">> " + player.Name + " HP = " + player.hp);
+                        
                     }else if(BSenemy == 2){
                         System.out.println(">> " + enemy.Name + " attacks!");
                         System.out.println(">> Dealt " + enemy.skilldmg + " damage!");
-                        System.out.println(">> " + player.Name + " HP = " +(player.hp -= enemy.skilldmg));
+                        
+                        player.hp -= enemy.skilldmg;
+                        if(player.hp <= 0){
+                            player.hp = 0;
+                            System.out.println(">> " + player.Name + " HP = " + player.hp);
+                            System.out.println("\n>> " + player.Name + " has been defeated!");
+                            System.out.println(">> YOU LOSE!");
+                            
+                            fighting = false;
+                            subAttack = false;
+                            continue;
+                        }                       
+                        System.out.println(">> " + player.Name + " HP = " + player.hp);
                     }
-                    subAttack = false;
-                    
+                    subAttack = false;                   
                 }else{
                     System.out.println("\n>> Invalid input! Not within the menu");
                 }  
@@ -205,7 +234,6 @@ public class Game {
             System.out.println("HP: " + player.hp);
             System.out.println("Basic Damage: " + player.basicdmg);
             System.out.println("Skill Damage: " + player.skilldmg);
-            System.out.println("EXP: " + player.exp);
 
             System.out.println("\n>> [OPPONENT]");
             System.out.println("Name: " + enemy.Name);
@@ -213,7 +241,6 @@ public class Game {
             System.out.println("HP: " + enemy.hp);
             System.out.println("Basic Damage: " + enemy.basicdmg);
             System.out.println("Skill Damage: " + enemy.skilldmg);
-            System.out.println("EXP: " + enemy.exp);
         }else{
             System.out.println("\n>> Invalid input! Not within the menu");
         }
@@ -222,7 +249,6 @@ public class Game {
             System.out.println("\n>> Invalid input! Please enter a number");
             scanner.next();
         }
-
     }     
   }
 }
