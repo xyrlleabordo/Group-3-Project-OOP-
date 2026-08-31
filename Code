@@ -10,11 +10,12 @@ public class Game {
     static Random random = new Random();
 
     static int coins = 0;
+    static int enemyCoins = 0;
     static long gameStartTime;
     static long lastRewardTime;
     
     static final long REWARD_INTERVAL = 60 * 1000;
-    static final int COIN_REWARD = 10;
+    static final int[] COIN_REWARDS = {2, 5, 10};
 
     public static void main(String[] args) {
 
@@ -51,13 +52,13 @@ public class Game {
         tigreal.herotype = "tank";
         tigreal.hp = 700;
     
-    System.out.println(">>>.WELCOME.TO.[CONSOLE LEGENDS: PEW PEW] <<<");
+    System.out.println("\n\n>>>> WELCOME TO [CONSOLE LEGENDS: PEW PEW] <<<<");
         
     boolean running = true;
     while(running){
-        System.out.println("\n==========={Hero selection}===========");
+        System.out.println("\n=======================[Hero selection]===");
         System.out.println("[1] Layla\n[2] Zilong\n[3] Nana\n[4] Tigreal");
-        System.out.println("======================================");
+        System.out.println("==========================================");
         System.out.print(">> Select your hero: ");
         
     try{
@@ -104,9 +105,9 @@ public class Game {
     boolean fighting = true;
     while(fighting){
         checkCoinReward();
-        System.out.println("\n============{Battle Menu}==============");
+        System.out.println("\n==========================[Battle Menu]===");
         System.out.println("[1] Attack\n[2] Check stats");
-        System.out.println("=======================================");
+        System.out.println("==========================================");
         System.out.print(">> Enter your selection: ");
         
         try{
@@ -117,9 +118,9 @@ public class Game {
             boolean subAttack = true;
             
             while(subAttack){
-                System.out.println("\nAttack|----------------------");
+                System.out.println("\n-------------------------------<Attack>---");
                 System.out.println("[1] Basic attack\n[2] Skill attack");  
-                System.out.println("-----------------------------");
+                System.out.println("------------------------------------------");
                 System.out.print(">> Select your choice of attack: ");
                 int BSplayer = scanner.nextInt();
                 
@@ -161,10 +162,11 @@ public class Game {
                         System.out.println(">> " + player.Name + " HP = " + player.hp);
                         
                     }else if(BSenemy == 2){
+                        
                         System.out.println(">> " + enemy.Name + " attacks!");
                         System.out.println(">> Dealt " + enemy.skilldmg + " damage!");
                         
-                        player.hp -= enemy.skilldmg;
+                        player.hp -= enemy.skilldmg;                       
                         
                         if(player.hp <= 0){
                             player.hp = 0;
@@ -180,34 +182,23 @@ public class Game {
                     }
                     subAttack = false;
    
-                    } else if (BSplayer == 2) {
-
-                            long currentTime = System.currentTimeMillis();
-
-                            long timePassed =
-                            (currentTime - player.skillLastUsed) / 1000;
-
-                    if (player.skillLastUsed != 0
-                            && timePassed < player.skillCooldown) {
-  
-                            long remainingTime =
-                            player.skillCooldown - timePassed;
-
-                         System.out.println("\n>> Skill is on cooldown!");
-                         System.out.println(">> Please wait "
-                            + remainingTime + " second(s).");
-
-                   continue;
-                   }
-
-                         System.out.println("\n>> " + player.Name + " used [Skill]");
-                         System.out.println(">> Dealt " + player.skilldmg + " damage");
-
-                             enemy.hp -= player.skilldmg;
-
-                            player.skillLastUsed = System.currentTimeMillis();
-     
-                      System.out.println(">> Skill cooldown started: 10 seconds");
+                }else if (BSplayer == 2 ){
+                    
+                    long currentTime = System.currentTimeMillis();
+                    long timePassed = (currentTime - player.skillLastUsed) / 1000;
+                    if (player.skillLastUsed != 0 && timePassed < player.skillCooldown) {
+                        long remainingTime = player.skillCooldown - timePassed;
+                        System.out.println("\n>> Skill is on cooldown!");
+                        System.out.println(">> Please wait " + remainingTime + " second(s).");    
+                        continue;
+                    }                                    
+                    System.out.println("\n>> " + player.Name + " used [Skill]");
+                    System.out.println(">> Dealt "+player.skilldmg+" damage");
+                    
+                    enemy.hp -= player.skilldmg;
+                    
+                    player.skillLastUsed = System.currentTimeMillis();
+                    System.out.println(">> Skill cooldown started: 10 seconds");
                     
                     if(enemy.hp <= 0){
                         enemy.hp = 0;
@@ -244,7 +235,8 @@ public class Game {
                         System.out.println(">> " + enemy.Name + " attacks!");
                         System.out.println(">> Dealt " + enemy.skilldmg + " damage!");
                         
-                        player.hp -= enemy.skilldmg;
+                        player.hp -= enemy.skilldmg; 
+                        
                         if(player.hp <= 0){
                             player.hp = 0;
                             System.out.println(">> " + player.Name + " HP = " + player.hp);
@@ -263,7 +255,7 @@ public class Game {
                 }  
             }
         }else if (battlePick == 2){
-            System.out.println("\n==========={Hero Status}===========");
+            System.out.println("\n==========================[Hero Status]===");
             System.out.println(">> [YOUR HERO INFO]");
             System.out.println("Name: " + player.Name);
             System.out.println("Type: " + player.herotype);
@@ -290,26 +282,33 @@ public class Game {
 public static void checkCoinReward() {
     long currentTime = System.currentTimeMillis();
 
-    if (currentTime - lastRewardTime >= 60 * 1000) {
+    if (currentTime - lastRewardTime >= 30 * 1000) {
 
-        long minutesPassed =
-                (currentTime - lastRewardTime) / (60 * 1000);
+        long timePassed = (currentTime - lastRewardTime) / (30 * 1000);
 
-        int reward = (int) minutesPassed * 10;
+        for (int i = 0; i < timePassed; i++) {
 
-        coins += reward;
+            int playerReward = COIN_REWARDS[random.nextInt(COIN_REWARDS.length)];
+            int enemyReward = COIN_REWARDS[random.nextInt(COIN_REWARDS.length)];
 
-        lastRewardTime += minutesPassed * (60 * 1000);
+            coins += playerReward;
+            enemyCoins += enemyReward;
 
-        System.out.println("\n>> ★ COIN REWARD! ★");
-        System.out.println(">> You received " + reward + " coins!");
-        System.out.println(">> Total Coins: " + coins);
+            System.out.println("\n--------------------------{Gold Reward}---");
+            System.out.println(">> You received " + playerReward + " coins!");
+            System.out.println(">> Total Coins: " + coins);
+
+            System.out.println(">> Opponent received " + enemyReward + " coins!");
+            System.out.println(">> Enemy Coins: " + enemyCoins);
+        }
+
+        lastRewardTime += timePassed * (30 * 1000);
     }
 }
 
 public static void shop() {
 
-    System.out.println("\n============{ SHOP }============");
+    System.out.println("\n=================================<SHOP>===");
     System.out.println(">> Your Coins: " + coins);
     System.out.println("[1] Health Potion - 30 coins");
     System.out.println("[2] Damage Boost - 50 coins");
