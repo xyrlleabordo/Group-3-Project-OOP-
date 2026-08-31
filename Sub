@@ -6,5 +6,4 @@ public class Hero {
     String Name;
     String herotype;
     int hp;
-    int exp;
 }
