@@ -6,4 +6,6 @@ public class Hero {
     String Name;
     String herotype;
     int hp;
+    int skillCooldown = 10;
+    long skillLastUsed = 0;
 }
