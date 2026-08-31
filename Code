@@ -99,7 +99,7 @@ public class Game {
             enemy = tigreal;
         }
     }while(enemy == player); 
-        System.out.println(">> Your {Opponent} has selected "+enemy.Name);
+        System.out.println(">> Your Opponent has selected ["+enemy.Name+"]");
     
     boolean fighting = true;
     while(fighting){
