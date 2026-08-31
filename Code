@@ -198,7 +198,22 @@ public class Game {
                 }  
             }
         }else if (battlePick == 2){
-            //checking hero status
+            System.out.println("\n==========={Hero Status}===========");
+            System.out.println(">> [YOUR HERO INFO]");
+            System.out.println("Name: " + player.Name);
+            System.out.println("Type: " + player.herotype);
+            System.out.println("HP: " + player.hp);
+            System.out.println("Basic Damage: " + player.basicdmg);
+            System.out.println("Skill Damage: " + player.skilldmg);
+            System.out.println("EXP: " + player.exp);
+
+            System.out.println("\n>> [OPPONENT]");
+            System.out.println("Name: " + enemy.Name);
+            System.out.println("Type: " + enemy.herotype);
+            System.out.println("HP: " + enemy.hp);
+            System.out.println("Basic Damage: " + enemy.basicdmg);
+            System.out.println("Skill Damage: " + enemy.skilldmg);
+            System.out.println("EXP: " + enemy.exp);
         }else{
             System.out.println("\n>> Invalid input! Not within the menu");
         }
